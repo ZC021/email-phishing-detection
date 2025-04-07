@@ -139,38 +139,49 @@ def enhanced_extract_features(email_text):
 
 | 언어 | 주요 패턴 | 일반적인 위장 대상 |
 |------|----------|------------|
-| 영어 | "Verify immediately", "Account suspended" | PayPal, Apple, Microsoft |
-| 독일어 | "Konto bestätigen", "Sicherheitshinweis" | Deutsche Bank, Amazon.de |
-| 프랑스어 | "Vérifiez votre compte", "Alerte de sécurité" | Crédit Agricole, Orange |
-| 스페인어 | "Verificar cuenta", "Alerta de seguridad" | Santander, BBVA |
-| 이탈리아어 | "Verifica il tuo conto", "Avviso di sicurezza" | UniCredit, Poste Italiane |
+| 영어 | "Verify immediately", "Account suspended" | PayPal, Amazon, Apple |
+| 독일어 | "Konto bestätigen", "Sicherheitswarnung" | Deutsche Bank, Amazon.de |
+| 프랑스어 | "Confirmer votre compte", "Alerte de sécurité" | Crédit Agricole, La Poste |
+| 스페인어 | "Verificar su cuenta", "Alerta de seguridad" | BBVA, Santander |
+| 이탈리아어 | "Verificare il tuo account", "Avviso di sicurezza" | UniCredit, Poste Italiane |
 
-## 성능 고려 사항
+## 지원 언어
 
-다국어 지원을 추가할 때 다음 사항을 고려해야 합니다:
+현재 지원되는 언어 목록:
 
-1. **언어 감지 정확도**: 짧은 텍스트에서는 언어 감지가 부정확할 수 있으며, 여러 언어가 혼합된 이메일은 탐지가 어려울 수 있습니다.
-2. **번역 API 제한**: 외부 번역 API를 사용할 경우 요청 제한과 비용을 고려해야 합니다.
-3. **처리 시간**: 언어 감지와 번역은 추가 처리 시간이 필요합니다.
+- 영어(en)
+- 독일어(de)
+- 프랑스어(fr)
+- 스페인어(es)
+- 이탈리아어(it)
+- 포르투갈어(pt)
+- 네덜란드어(nl)
+- 러시아어(ru)
+- 중국어(zh)
+- 일본어(ja)
+- 한국어(ko)
 
-## 향후 개선 방향
+언어 지원을 확장하려면:
 
-1. **더 많은 언어 지원**: 아시아 언어(한국어, 일본어, 중국어 등) 및 다른 유럽 언어 지원 확대
-2. **언어별 모델**: 각 언어에 특화된 피싱 탐지 모델 개발
-3. **효율적인 번역**: 전체 이메일이 아닌 중요 부분만 선택적으로 번역하여 효율성 개선
-4. **다국어 단어 임베딩**: 언어 간 의미를 보존하는 다국어 단어 임베딩 활용
+1. `suspicious_keywords.json`에 새 언어의 키워드 추가
+2. 해당 언어의 spaCy 모델 설치
+3. `MultilingualFeatureExtractor`에서 필요한 경우 언어별 규칙 추가
 
-## 기여 방법
+## 성능 및 제한 사항
 
-다국어 지원을 개선하고 싶다면 다음과 같은 방법으로 기여할 수 있습니다:
+- 언어 감지 정확도: langid 라이브러리 사용 시 최대 약 95%
+- 번역 속도: API 호출 기반이므로 실시간 분석 시 지연 발생 가능
+- 번역 API 요금: 대량 처리 시 비용 소요 (무료 대안: translatepy 사용)
+- 저자원 언어: 일부 언어의 경우 피싱 특성 탐지의 정확도가 낮을 수 있음
 
-1. 새로운 언어에 대한 의심스러운 키워드 목록 추가
-2. 언어별 피싱 패턴 분석 및 문서화
-3. 다국어 데이터셋 구축 및 공유
-4. 번역 없이도 다국어 이메일을 처리할 수 있는 모델 개발
+## 향후 개선 계획
 
-## 데이터셋 및 참고 자료
+1. 더 많은 언어 지원 추가
+2. 언어별 맞춤형 모델 개발
+3. 문화적 특수성을 고려한 피싱 패턴 탐지 개선
+4. 실시간 번역 성능 최적화
+5. 오프라인 번역 지원 강화
 
-- [Phishing Email Corpus (다국어)](https://github.com/openphish/phishing-dataset)
-- [Anti-Phishing Working Group (APWG) 보고서](https://apwg.org/trendsreports/)
-- [다국어 NLP 라이브러리 및 리소스](https://github.com/sebastianruder/NLP-progress/blob/master/multilingual.md)
+## 라이센스
+
+MIT 라이센스에 따라 배포됩니다.
