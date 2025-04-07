@@ -1,0 +1,80 @@
+From: "PayPal" <service@paypal.com>
+To: user@example.com
+Subject: Your PayPal receipt for payment to Example Store
+Date: Mon, 7 Apr 2025 10:15:43 -0700
+MIME-Version: 1.0
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PayPal Receipt</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+        <tr>
+            <td style="padding: 20px; text-align: center; background-color: #0070ba;">
+                <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal Logo" style="max-width: 100px;">
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 30px;">
+                <h1 style="color: #333; margin-top: 0; font-size: 24px;">Receipt for Your Payment</h1>
+                <p style="font-size: 16px; line-height: 1.5;">Hello Jane Doe,</p>
+                <p style="font-size: 16px; line-height: 1.5;">You sent a payment of <strong>$24.99 USD</strong> to Example Store.</p>
+                
+                <div style="background-color: #f8f8f8; border: 1px solid #ddd; padding: 20px; margin: 20px 0;">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="padding-bottom: 10px;">
+                                <p style="font-size: 14px; margin: 0;"><strong>Transaction ID:</strong> 3XC87261JT4822731</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 10px;">
+                                <p style="font-size: 14px; margin: 0;"><strong>Merchant:</strong> Example Store</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 10px;">
+                                <p style="font-size: 14px; margin: 0;"><strong>Date:</strong> April 7, 2025</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 10px;">
+                                <p style="font-size: 14px; margin: 0;"><strong>Amount:</strong> $24.99 USD</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <p style="font-size: 14px; margin: 0;"><strong>Payment Method:</strong> Visa ending in 1234</p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <p style="font-size: 16px; line-height: 1.5;">For questions about your purchase, you can contact Example Store directly at support@example.com.</p>
+                
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="https://www.paypal.com/myaccount/transactions/" style="display: inline-block; background-color: #0070ba; color: #ffffff; font-size: 16px; font-weight: bold; text-decoration: none; padding: 12px 30px; border-radius: 4px;">View Transaction Details</a>
+                </div>
+                
+                <p style="font-size: 16px; line-height: 1.5;">Thank you for using PayPal.</p>
+                
+                <p style="font-size: 16px; line-height: 1.5;">Sincerely,<br>PayPal</p>
+            </td>
+        </tr>
+        <tr>
+            <td style="padding: 20px; text-align: center; background-color: #f5f5f5; font-size: 12px; color: #666666;">
+                <p style="margin: 0 0 10px 0;">Please do not reply to this email. To contact us, click <a href="https://www.paypal.com/us/smarthelp/home" style="color: #0070ba; text-decoration: none;">Help & Contact</a>.</p>
+                <p style="margin: 0 0 10px 0;">
+                    <a href="https://www.paypal.com/us/webapps/mpp/ua/privacy-full" style="color: #0070ba; text-decoration: none; margin-right: 10px;">Privacy</a>
+                    <a href="https://www.paypal.com/us/webapps/mpp/ua/legalhub-full" style="color: #0070ba; text-decoration: none;">Legal Agreements</a>
+                </p>
+                <p style="margin: 0;">© 2025 PayPal, Inc. All rights reserved. PayPal is located at 2211 N. First St., San Jose, CA 95131.</p>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
