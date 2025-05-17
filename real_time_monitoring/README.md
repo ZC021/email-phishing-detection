@@ -111,9 +111,7 @@ service.add_account(
 
 ## 설치 요구 사항
 
-```
-pip install imaplib email threading queue
-```
+`imaplib`, `email`, `threading`, `queue` 모듈은 파이썬 표준 라이브러리에 포함되어 있으므로 별도의 설치가 필요하지 않습니다.
 
 ## 설정 파일 구조
 
