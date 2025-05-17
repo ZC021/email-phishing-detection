@@ -1,1 +1,0 @@
-# Multilingual phishing detection module
