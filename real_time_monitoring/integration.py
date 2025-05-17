@@ -6,6 +6,8 @@ from typing import Dict, Any, Optional, List, Tuple
 import threading
 
 from real_time_monitoring.email_monitor import EmailMonitor
+from real_time_monitoring.gmail_api_monitor import GmailAPIMonitor, get_gmail_service
+from real_time_monitoring.database import DatabaseManager
 from ml.feature_extraction import extract_features_from_email
 from ml.model import PhishingDetectionModel
 
@@ -28,13 +30,18 @@ class MonitoringService:
     Can be used standalone or integrated with Flask.
     """
     def __init__(self, config_path: str = None, model_path: str = None,
-                 bert_model_path: str = None, notification_callback=None):
-        self.monitor = EmailMonitor(config_path)
+                 bert_model_path: str = None, notification_callback=None,
+                 credentials_path: str = None, db_path: str = None):
+        if credentials_path:
+            self.monitor = GmailAPIMonitor(credentials_path)
+        else:
+            self.monitor = EmailMonitor(config_path)
         self.model = None
         self.bert_detector = None
         self.notification_callback = notification_callback
         self.detected_phishing = []  # List to store detected phishing emails
         self.detection_lock = threading.Lock()  # Lock for thread-safe access
+        self.db = DatabaseManager(db_path) if db_path else None
         
         # Load phishing detection model
         if model_path and os.path.exists(model_path):
@@ -68,6 +75,9 @@ class MonitoringService:
                    imap_port: int = 993, use_ssl: bool = True,
                    check_interval: int = 60) -> bool:
         """Add an email account to monitor"""
+        if isinstance(self.monitor, GmailAPIMonitor):
+            logger.warning("Gmail API monitor manages the account via OAuth; 'add_account' is ignored")
+            return True
         try:
             self.monitor.add_account(
                 email=email,
@@ -84,6 +94,9 @@ class MonitoringService:
     
     def remove_account(self, email: str) -> bool:
         """Remove an email account from monitoring"""
+        if isinstance(self.monitor, GmailAPIMonitor):
+            logger.warning("Gmail API monitor manages the account via OAuth; 'remove_account' is ignored")
+            return True
         return self.monitor.remove_account(email)
     
     def start(self) -> bool:
@@ -107,6 +120,8 @@ class MonitoringService:
     def process_email(self, email_info: Dict[str, Any]) -> None:
         """Process an email to detect phishing"""
         try:
+            if self.db and self.db.message_exists(email_info['id']):
+                return
             # Extract email content
             email_content = f"From: {email_info['from']}\nSubject: {email_info['subject']}\n\n{email_info['body']}"
             
@@ -148,16 +163,21 @@ class MonitoringService:
             if is_phishing:
                 with self.detection_lock:
                     self.detected_phishing.append(detection_result)
-                
+
+                if self.db:
+                    self.db.save_detection(email_info['id'], email_info, True, float(phishing_prob))
+
                 # Call notification callback if provided
                 if self.notification_callback:
                     try:
                         self.notification_callback(detection_result)
                     except Exception as e:
                         logger.error(f"Notification callback failed: {str(e)}")
-                
+
                 logger.warning(f"Phishing email detected: {email_info['subject']} (from {email_info['from']})")
             else:
+                if self.db:
+                    self.db.save_detection(email_info['id'], email_info, False, float(phishing_prob))
                 logger.info(f"Legitimate email processed: {email_info['subject']}")
         
         except Exception as e:
@@ -165,14 +185,14 @@ class MonitoringService:
     
     def get_detected_phishing(self, limit: int = 100, clear: bool = False) -> List[Dict[str, Any]]:
         """Get list of detected phishing emails"""
+        if self.db:
+            return self.db.get_detections(limit)
+
         with self.detection_lock:
-            # Return a copy of the list to avoid modification issues
             result = list(self.detected_phishing[-limit:])
-            
-            # Clear the list if requested
             if clear:
                 self.detected_phishing = []
-        
+
         return result
     
     def save_configuration(self, config_path: str) -> bool:
@@ -221,11 +241,16 @@ def setup_monitoring_service(app, model_path=None, bert_model_path=None):
             app.phishing_notifications = app.phishing_notifications[-1000:]
     
     # Create service
+    credentials_path = app.config.get('GOOGLE_CREDENTIALS')
+    db_path = app.config.get('DETECTION_DB', 'detections.db')
+
     service = MonitoringService(
         config_path=config_path,
         model_path=model_path,
         bert_model_path=bert_model_path,
-        notification_callback=notification_callback
+        notification_callback=notification_callback,
+        credentials_path=credentials_path,
+        db_path=db_path,
     )
     
     # Store in app context
@@ -255,8 +280,11 @@ if __name__ == "__main__":
         print(f"Confidence: {detection_result['confidence'] * 100:.2f}%")
         print("-" * 50)
     
-    # Create service
-    service = MonitoringService(notification_callback=print_notification)
+    # Create service (uses Gmail API if GOOGLE_CREDENTIALS is set)
+    creds_path = os.environ.get('GOOGLE_CREDENTIALS')
+    service = MonitoringService(notification_callback=print_notification,
+                                credentials_path=creds_path,
+                                db_path='detections.db')
     
     # Example - Add your account (NOT RECOMMENDED to hardcode credentials)
     # service.add_account(

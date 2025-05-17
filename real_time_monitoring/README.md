@@ -1,6 +1,6 @@
 # 실시간 이메일 모니터링 (Real-time Email Monitoring)
 
-이 모듈은 IMAP 프로토콜을 통해 이메일 계정에 연결하여 실시간으로 수신되는 이메일을 모니터링하고 피싱 공격을 감지합니다.
+이 모듈은 IMAP 또는 Gmail API(OAuth)를 통해 이메일 계정에 연결하여 실시간으로 수신되는 이메일을 모니터링하고 피싱 공격을 감지합니다.
 
 ## 주요 기능
 
@@ -24,6 +24,7 @@
 
 ```python
 from real_time_monitoring.integration import MonitoringService
+import os
 
 # 알림 콜백 함수 정의
 def notification_handler(detection_result):
@@ -35,7 +36,9 @@ service = MonitoringService(
     config_path="config/monitoring.json",
     model_path="models/phishing_model.joblib",
     bert_model_path="models/bert_phishing_model.pth",
-    notification_callback=notification_handler
+    notification_callback=notification_handler,
+    credentials_path=os.environ.get("GOOGLE_CREDENTIALS"),
+    db_path="detections.db"
 )
 
 # 이메일 계정 추가
@@ -80,6 +83,13 @@ def get_detections():
         return {"detections": detections}
     return {"detections": []}
 
+@app.route('/monitoring/db')
+def get_detections_from_db():
+    if hasattr(app, 'monitoring_service'):
+        detections = app.monitoring_service.get_detected_phishing()
+        return {"detections": detections}
+    return {"detections": []}
+
 if __name__ == '__main__':
     app.run(debug=True)
 ```
@@ -112,7 +122,7 @@ service.add_account(
 ## 설치 요구 사항
 
 ```
-pip install imaplib email threading queue
+pip install google-auth google-auth-oauthlib google-api-python-client
 ```
 
 ## 설정 파일 구조
